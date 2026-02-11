@@ -29,12 +29,10 @@
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <a href="{{ route('dashboard') }}" 
-                               class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('dashboard') }}" class="btn-secondary">
                                 Annuler
                             </a>
-                            <button type="submit" 
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button type="submit" class="btn-primary">
                                 Créer
                             </button>
                         </div>

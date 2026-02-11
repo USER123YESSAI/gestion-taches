@@ -1,0 +1,42 @@
+/* Custom styles for task management */
+
+.btn-primary {
+    background-color : blue;
+    color : white;
+}
+
+.btn-secondary {
+    background-color : gray;
+    color : black;
+}
+
+.btn-success {
+    background-color : green;
+    color : white;
+}
+
+.btn-warning {
+    background-color : yellow;
+    color : white;
+}
+
+.btn-danger {
+    background-color : red;
+    color : white;
+}
+
+.btn-large {
+    @apply py-3 px-6 text-lg shadow-lg;
+}
+
+.task-empty-state {
+    @apply text-center py-8;
+}
+
+.task-empty-text {
+    @apply text-gray-500 mb-6 text-lg;
+}
+
+.task-button-container {
+    @apply mt-4;
+}

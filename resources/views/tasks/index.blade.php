@@ -11,7 +11,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-medium text-gray-900">Liste des tâches</h3>
-                        <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('tasks.create') }}" class="btn-primary">
                             Nouvelle tâche
                         </a>
                     </div>
@@ -41,15 +41,13 @@
                                             </span>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('tasks.edit', $task) }}" 
-                                               class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded">
+                                            <a href="{{ route('tasks.edit', $task) }}" class="btn-warning">
                                                 Modifier
                                             </a>
                                             <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" 
-                                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                                                <button type="submit" class="btn-danger"
                                                         onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche?')">
                                                     Supprimer
                                                 </button>
@@ -60,12 +58,13 @@
                             @endforeach
                         </div>
                     @else
-                        <div class="text-center py-8">
-                            <p class="text-gray-500 mb-4">Vous n'avez aucune tâche.</p>
-                            <a href="{{ route('tasks.create') }}" 
-                               class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                Créer votre première tâche
-                            </a>
+                        <div class="task-empty-state">
+                            <p class="task-empty-text">Vous n'avez aucune tâche.</p>
+                            <div class="task-button-container">
+                                <a href="{{ route('tasks.create') }}" class="btn-success">
+                                    Créer votre première tâche
+                                </a>
+                            </div>
                         </div>
                     @endif
                 </div>
