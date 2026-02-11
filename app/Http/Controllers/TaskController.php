@@ -8,36 +8,73 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-   public function index()
-{
-    // On récupère les tâches de l'utilisateur connecté
-    $tasks = auth()->user()->tasks;
-
-    // On envoie la variable à la vue dashboard
-    return view('dashboard', compact('tasks'));
-}
-
-    public function store(Request $request) {
-        $request->validate(['title' => 'required']);
-        Auth::user()->tasks()->create(['title' => $request->title]);
-        return back();
+    public function index()
+    {
+        $tasks = auth()->user()->tasks()->orderBy('created_at', 'desc')->get();
+        return view('tasks.index', compact('tasks'));
     }
 
-    // UPDATE : Cocher une tâche comme faite
-    public function update(Request $request, Task $task) {
-    if ($request->has('title')) {
-        // Si on reçoit un titre via le script JS (bouton Modifier)
-        $task->update(['title' => $request->title]);
-    } else {
-        // Si on clique sur le rond/check (changement de statut)
-        $task->update(['is_completed' => !$task->is_completed]);
+    public function create()
+    {
+        return view('tasks.create');
     }
-    return back();
-}
 
-    // DELETE : Supprimer une tâche
-    public function destroy(Task $task) {
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        auth()->user()->tasks()->create($validated);
+
+        return redirect()->route('tasks.index')
+            ->with('success', 'Tâche créée avec succès!');
+    }
+
+    public function edit(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+        
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'is_completed' => 'boolean',
+        ]);
+
+        $task->update($validated);
+
+        return redirect()->route('tasks.index')
+            ->with('success', 'Tâche mise à jour avec succès!');
+    }
+
+    public function destroy(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
         $task->delete();
-        return back();
+
+        return redirect()->route('tasks.index')
+            ->with('success', 'Tâche supprimée avec succès!');
+    }
+
+    public function toggle(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+        $task->update(['is_completed' => !$task->is_completed]);
+
+        return redirect()->route('tasks.index')
+            ->with('success', 'Statut de la tâche mis à jour!');
     }
 }
