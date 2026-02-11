@@ -27,20 +27,20 @@
                             @foreach($tasks as $task)
                                 <div class="border rounded-lg p-4 {{ $task->is_completed ? 'bg-gray-50' : 'bg-white' }}">
                                     <div class="flex items-center justify-between">
-                                        <div class="flex items-center space-x-3">
+                                        <div class="flex items-center space-x-2">
                                             <form action="{{ route('tasks.toggle', $task) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('PATCH')
                                                 <input type="checkbox" 
                                                     {{ $task->is_completed ? 'checked' : '' }}
                                                     onchange="this.form.submit()"
-                                                    class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                                                    class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
                                             </form>
                                             <span class="{{ $task->is_completed ? 'line-through text-gray-500' : 'text-gray-900' }}">
                                                 {{ $task->title }}
                                             </span>
                                         </div>
-                                        <div class="flex space-x-2">
+                                        <div class="flex space-x-3">
                                             <a href="{{ route('tasks.edit', $task) }}" class="btn-warning">
                                                 Modifier
                                             </a>
