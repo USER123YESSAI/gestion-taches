@@ -11,4 +11,14 @@ class Task extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+    public function store(Request $request)
+{
+    $request->validate(['title' => 'required|string|max:255']);
+
+    auth()->user()->tasks()->create([
+        'title' => $request->title,
+    ]);
+
+    return redirect()->route('dashboard')->with('success', 'Tâche ajoutée !');
+}
 }
